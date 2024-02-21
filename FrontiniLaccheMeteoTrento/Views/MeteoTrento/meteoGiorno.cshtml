@@ -1,0 +1,74 @@
+﻿@using ClassiUtility.Modelli
+@using System.Globalization
+@model FrontiniLaccheMeteoTrento.ViewModels.MeteoTrentoGiornoViewModel;
+
+@{
+    Layout = null;
+}
+
+@{
+    //impostazione della dicitura della data in lingua italiana
+    //una data "2024-02-22" verrà interpretata come "22 Febbraio 2024"
+    DateTime datanonpronta = DateTime.ParseExact(Model.giorno.giorno, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+    CultureInfo italianCulture = new CultureInfo("it-IT");
+    string datapronta = datanonpronta.ToString("dd MMMM yyyy", italianCulture);
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meteo del @datapronta</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <h1 class="text-center">Meteo del @datapronta</h1>
+                <h2 class="text-center">@Model.giorno.testoGiorno</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Ora</th>
+                            <th>Tempo</th>
+                            <th>Descrizione</th>
+                            <th>Zero termico(m)</th>
+                            <th>Probabilità precipitazioni</th>
+                            <th>Intensità precipitazioni</th>
+                            <th>Probabilità di temporale</th>
+                            <th>Vento ad alta quota</th>
+                            <th>Direzione vento</th>
+                            <th>Vento a valle</th>
+                            <th>Direzione vento a valle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Fasce f in Model.giorno.fasce)
+                        {
+                            <tr>
+                                <td>@f.fasciaOre</td>
+                                <td><img src="@f.icona" /></td>
+                                <td>@f.descIcona</td>
+                                <td>@f.zeroTermico</td>
+                                <td>@f.descPrecProb</td>
+                                <td>@f.descPrecInten</td>
+                                <td>@f.descTempProb</td>
+                                <td>@f.descVentoIntQuota</td>
+                                <td><img src="@f.iconaVentoQuota" /></td>
+                                <td>@f.descVentoIntValle</td>
+                                <td>@f.descVentoDirValle</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

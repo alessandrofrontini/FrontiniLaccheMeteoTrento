@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  frontinilacche_meteotrento_soap:
+    container_name: frontinilacche_meteotrento_soap
+    image: ${DOCKER_REGISTRY-}frontinilacchemeteotrentosoap
+    build:
+      context: .
+      dockerfile: FrontiniLacche_MeteoTrento_SOAP/Dockerfile
+    ports:
+        - 1111:80
+
+  frontinilacchemeteotrento:
+    container_name: frontinilacche_meteotrento
+    image: ${DOCKER_REGISTRY-}frontinilacchemeteotrento
+    build:
+      context: .
+      dockerfile: FrontiniLaccheMeteoTrento/Dockerfile
+    ports:
+        - 2222:80

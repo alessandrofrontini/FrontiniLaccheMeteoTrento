@@ -1,0 +1,118 @@
+﻿@using ClassiUtility.Modelli
+@model FrontiniLaccheMeteoTrento.ViewModels.MeteoTrentoMainViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Meteo Trento</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <h3><strong>Evoluzione breve: </strong>@Model.jsontomodel.evoluzioneBreve</h3>
+            <h3><strong>Evoluzione: </strong>@Model.jsontomodel.evoluzione</h3>
+            <div class="col-md-8">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Giorno</th>
+                            <th>Tempo</th>
+                            <th>Minima</th>
+                            <th>Massima</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Previsione p in Model.jsontomodel.previsione)
+                        {
+                            foreach (Giorni g in p.giorni)
+                            {
+                                <tr>
+                                    <td><a href="http://localhost:2222/Home/Giorno?giorno=@g.giorno">@g.giorno</a></td>
+                                    <td><img src="@g.icona" /></td>
+                                    <td>@g.tMinGiorno°</td>
+                                    <td>@g.tMaxGiorno°</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <h3><strong>Tutti i dati</strong></h3>
+        @foreach (Previsione p in Model.jsontomodel.previsione)
+        {
+            <table class="table table-bordered">
+                @foreach (Giorni g in p.giorni)
+                {
+                    <thead>
+                        <tr>
+                            <th>Giorno</th>
+                            <th>Icona</th>
+                            <th>Descrizione icona</th>
+                            <th>Testo del giorno</th>
+                            <th>Minima</th>
+                            <th>Massima</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@g.giorno</td>
+                            <td><img src="@g.icona" /></td>
+                            <td>@g.descIcona</td>
+                            <td>@g.testoGiorno</td>
+                            <td>@g.tMinGiorno°</td>
+                            <td>@g.tMaxGiorno°</td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th>Fascia oraria</th>
+                            <th>Ore</th>
+                            <th>Icona</th>
+                            <th>Descrizione icona</th>
+                            <th>Probabilità precipitazioni</th>
+                            <th>Intensità precipitazioni</th>
+                            <th>Probabilità di temporale </th>
+                            <th>Descrizione vento in quota</th>
+                            <th>Direzione vento in quota</th>
+                            <th>Icona vento quota</th>
+                            <th>Descrizione vento valle</th>
+                            <th>Direzione vento valle</th>
+                            <th>Zero termico(m)</th>
+                            <th>Limite nevicate(m)</th>
+                        </tr>
+                    </thead>
+                    @foreach (Fasce f in g.fasce)
+                    {
+                        <tbody>
+                            <tr>
+                                <td>@f.fasciaPer</td>
+                                <td>@f.fasciaOre</td>
+                                <td><img src="@f.icona" /></td>
+                                <td>@f.descIcona</td>
+                                <td>@f.descPrecProb</td>
+                                <td>@f.descPrecInten</td>
+                                <td>@f.descTempProb</td>
+                                <td>@f.descVentoIntQuota</td>
+                                <td>@f.descVentoDirQuota</td>
+                                <td><img src="@f.iconaVentoQuota" /></td>
+                                <td>@f.descVentoIntValle</td>
+                                <td>@f.descVentoDirValle</td>
+                                <td>@f.zeroTermico</td>
+                                <td>@f.limiteNevicate</td>
+                            </tr>
+                        </tbody>
+                    }
+                }
+            </table>
+
+        }
+    </div>
+</body>
+</html>
